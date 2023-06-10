@@ -1,0 +1,145 @@
+Q1. 
+Given an integer `n`, return *`true` if it is a power of three. Otherwise, return `false`*.
+
+An integer `n` is a power of three, if there exists an integer `x` such that `n == 3x`.
+
+**Example 1:**
+
+def is_power_of_three(n):
+    if n <= 0:
+        return False
+    while n % 3 == 0:
+        n /= 3
+    return n == 1
+
+Q2. 
+You have a list `arr` of all integers in the range `[1, n]` sorted in a strictly increasing order. Apply the following algorithm on `arr`:
+
+- Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+- Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.
+- Keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+
+Given the integer `n`, return *the last number that remains in* `arr`.
+ANS 
+
+def last_remaining_number(n):
+    return find_last_number_recursive(n, True)
+
+def find_last_number_recursive(n, is_left_to_right):
+    if n == 1:
+        return 1
+    if is_left_to_right:
+        return 2 * find_last_number_recursive(n // 2, False)
+    else:
+        if n % 2 == 0:
+            return 2 * find_last_number_recursive(n // 2, True) - 1
+        else:
+            return 2 * find_last_number_recursive(n // 2, True)
+
+Q3. 
+Given a set represented as a string, write a recursive code to print all subsets of it. The subsets can be printed in any order.
+
+**Example 1:**
+
+Input :  set = “abc”
+
+Output : { “”, “a”, “b”, “c”, “ab”, “ac”, “bc”, “abc”}
+
+**Example 2:**
+
+Input : set = “abcd”
+
+Output : { “”, “a” ,”ab” ,”abc” ,”abcd”, “abd” ,”ac” ,”acd”, “ad” ,”b”, “bc” ,”bcd” ,”bd” ,”c” ,”cd” ,”d” }
+
+ANS 
+def print_all_subsets(s):
+    subsets = []
+    generate_subsets(s, "", subsets)
+    print(subsets)
+
+def generate_subsets(s, current_subset, subsets):
+    if len(s) == 0:
+        subsets.append(current_subset)
+        return
+    
+    # Include the first character and generate subsets for the remaining string
+    generate_subsets(s[1:], current_subset + s[0], subsets)
+
+    # Exclude the first character and generate subsets for the remaining string
+    generate_subsets(s[1:], current_subset, subsets)
+
+Q4. 
+Given a string calculate length of the string using recursion.
+
+**Examples:**
+
+def calculate_length(s):
+    if s == "":
+        return 0
+    else:
+        return 1 + calculate_length(s[1:])
+
+Q5. 
+We are given a string S, we need to find count of all contiguous substrings starting and ending with same character.
+
+ANS 
+def count_substrings(S):
+    count = 0
+    for i in range(len(S) - 1):
+        if S[i] == S[i+1]:
+            count += i + 1
+    return count
+
+Q6. TOWER OF HANOI 
+
+def tower_of_hanoi(n, source, destination, auxiliary):
+    if n == 1:
+        print("Move disc 1 from rod", source, "to rod", destination)
+        return 1
+
+    moves = 0
+
+    moves += tower_of_hanoi(n - 1, source, auxiliary, destination)
+
+    print("Move disc", n, "from rod", source, "to rod", destination)
+    moves += 1
+
+    moves += tower_of_hanoi(n - 1, auxiliary, destination, source)
+
+    return moves
+
+Q7. Given a string str, the task is to print all the permutations of str. A permutation is an arrangement of all or part of a set of objects, with regard to the order of the arrangement. 
+For instance, the words ‘bat’ and ‘tab’ represents two distinct permutation (or arrangements) of a similar three letter word.
+
+def permute(s, l, r):
+    if l == r:
+        print("".join(s))
+    else:
+        for i in range(l, r + 1):
+            # Swap the current character with the first character
+            s[l], s[i] = s[i], s[l]
+            
+            # Recursively generate permutations for the remaining characters
+            permute(s, l + 1, r)
+            
+            # Backtrack by restoring the original order
+            s[l], s[i] = s[i], s[l]
+
+# Function to print all permutations of a string
+def print_permutations(s):
+    n = len(s)
+    s = list(s)
+    permute(s, 0, n - 1)
+
+Q8. 
+Given a string, count total number of consonants in it. A consonant is an English alphabet character that is not vowel (a, e, i, o and u). Examples of constants are b, c, d, f, and g.
+
+def count_consonants(string):
+    consonants = "bcdfghjklmnpqrstvwxyz"  # List of consonant characters
+    count = 0
+
+    for char in string:
+        if char.lower() in consonants:
+            count += 1
+
+    return count
